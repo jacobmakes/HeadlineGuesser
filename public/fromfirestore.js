@@ -1,5 +1,6 @@
 const db = firebase.firestore();
 const headline = document.querySelector('.headlinetext');
+const paperpic = document.querySelector('#paper');
 
 
 const headlinelist = {
@@ -13,7 +14,35 @@ let count = {mail:0,
 
 //TODO: font size adjust to headline length
 function newheadline(paper){
-  headline.innerText = headlinelist[paper][count[paper]];
+let headlinetext= headlinelist[paper][count[paper]];
+let papertop = paperpic.getBoundingClientRect().top;  //only used in calc of bluetop
+let paperbottom = paperpic.getBoundingClientRect().bottom; //only used in calc of bluetop
+let bluetop= papertop+(paperbottom-papertop)*(301/619);
+
+let fontS = 50;
+
+headline.style.opacity = '0';
+headline.style.fontSize = '50px';
+headline.innerText = headlinetext;
+let hlbottom = headline.getBoundingClientRect().bottom;
+
+
+
+//console.table(hlbottom);
+//console.log('bluttop',bluetop);
+
+while(hlbottom>bluetop && fontS >12){
+          fontS--;
+          headline.style.fontSize = fontS+'px';
+          hlbottom = headline.getBoundingClientRect().bottom;
+
+ //console.log('smaller',fontS)
+}
+headline.style.opacity = '1';
+
+
+
+
   count[paper]++;
 
 
@@ -39,7 +68,7 @@ async function getFromLaunch(paper){ //get with a limited number of entries
     console.log(headlinelist[paper], paper);
 
     lastVisible[paper] = querySnapshot.docs[querySnapshot.docs.length-1];
-    console.log(" Launch last", lastVisible);
+    console.log(" Launch last", lastVisible[paper].data().title);
   
   }).catch(err => console.log('wrong'));
 
@@ -49,22 +78,30 @@ async function getFromLaunch(paper){ //get with a limited number of entries
 
 
 function getFromAdvanced(paper){ //get with a limited number of entries
-
-
+      if(lastVisible[paper]==null){getFromLaunch();}else{
+        console.log('starting at '+lastVisible[paper].data().title);
       db.collection(paper).orderBy(`random.${randchoice}`).startAt(lastVisible[paper]).limit(20).get()
         .then(function(querySnapshot) {
           querySnapshot.forEach(function(doc) {
             // doc.data() is never undefined for query doc snapshots
             //console.log(doc.data().webTitle);
           headlinelist[paper].push(doc.data().title);
-
+            console.log(doc.data().title);
         });
         console.log('getfromadvanced run for '+paper);
+        console.log(querySnapshot.docs.length, 'reteived');
+          if(querySnapshot.docs.length < 20){gameover();}
 
         if(querySnapshot.docs[querySnapshot.docs.length-1]){
         lastVisible[paper] = querySnapshot.docs[querySnapshot.docs.length-1];}
         else{console.log('SORRY RUN OUT',paper);}
-        console.log("last", lastVisible);
+        console.log("last", lastVisible[paper].data().title);
       
       }).catch(err => console.log('wrong'));
+    }
       }
+
+function gameover(){
+console.log('GAME OVER');
+//TODO: Write the players accuracy.
+}

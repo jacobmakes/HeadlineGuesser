@@ -33,6 +33,7 @@ return newStr;}
 
 function strReplaceMT(str){ //REMOVE columist name from title
   var newStr = str.replace(/^([A-Z]|\s){1,30}:/g, "");
+  var newStr = str.replace(/([A-Z]|\s){6,20}\.?$/g, ""); //ALL CAPS FROM END
 return newStr;}
 
 
@@ -177,7 +178,7 @@ randomize('guardian')
                   random4:rand4,         
                   random5:rand5,
                   random6:rand6,
-        }
+        },
     })
     .then(() => {
         console.log("Documents successfully updated with random!");
@@ -195,3 +196,45 @@ randomize('guardian')
   response.send('completed');
 
 });
+
+
+exports.ranklist = functions.https.onRequest((request, response) => {
+
+rankpapers('guardian');
+
+  function rankpapers(paper){ admin.firestore().collection(paper).get()
+    .then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+        let totalcorrect =0,
+         totalincorrect=0,
+         right=0,
+        total=1;
+
+         if(doc.data().correct != null) {totalcorrect = doc.data().correct.total;
+           if(doc.data().incorrect != null) {totalincorrect = doc.data().incorrect.total;
+
+
+        total = totalcorrect+totalincorrect;
+      right = totalcorrect/total;
+      
+      console.log(totalcorrect,totalincorrect,right)
+  //update each document
+        doc.ref.update({
+          right:right          
+      })
+    }}//end nested if
+
+    })//end for each
+  
+
+
+})//end quey snapshot
+
+.catch((error) => {
+  // The document probably doesn't exist.
+  console.error("Error updating documents: rank", error);
+});
+
+}
+response.send('list ranked'); 
+})//end cloud function

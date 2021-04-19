@@ -41,7 +41,7 @@ document.addEventListener('click',checkclick);
 
 function checkclick(e){
     const target = e.target;
-console.log(target, 'rect answer', newschoice)
+//console.log(target, 'rect answer', newschoice)
     let clickedpaper;
     let otherpaper
     if(target == button1){
@@ -70,7 +70,7 @@ if(target == button2){
 function correctanswer(paperclicked,otherpaper) {
 if(headlinelist[paperclicked][count[paperclicked]]){
     db.collection(paperclicked).where('title', "==",headlinelist[paperclicked][count[paperclicked]] )
-    .get().then(querySnapshot => { console.log('countstuff',headlinelist[paperclicked],count,querySnapshot);
+    .get().then(querySnapshot => {// console.log('countstuff',headlinelist[paperclicked],count,querySnapshot);
         querySnapshot.forEach(doc => {
           doc.ref.set( //TODO Understand .ref
             {correct:{[otherpaper]: firebase.firestore.FieldValue.increment(1),
@@ -91,7 +91,7 @@ if(headlinelist[paperclicked][count[paperclicked]]){
 function wronganswer(paperclicked,otherpaper) {
     if(headlinelist[otherpaper][count[otherpaper]]){
         db.collection(otherpaper).where('title', "==",headlinelist[otherpaper][count[otherpaper]] )
-        .get().then(querySnapshot => { console.log('countstuff',headlinelist[otherpaper],count,querySnapshot);
+        .get().then(querySnapshot => { //console.log('countstuff',headlinelist[otherpaper],count,querySnapshot);
             querySnapshot.forEach(doc => {
               doc.ref.set( //TODO Understand .ref
                 {incorrect:{[paperclicked]: firebase.firestore.FieldValue.increment(1),
