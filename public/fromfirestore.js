@@ -1,6 +1,33 @@
 const db = firebase.firestore();
+const auth = firebase.auth();
 const headline = document.querySelector('.headlinetext');
 const paperpic = document.querySelector('#paper');
+let lastVisible = {mail:null, guardian:null};
+
+auth.onAuthStateChanged( (user) =>{
+if(user==null){
+auth.signInAnonymously().then(
+  ()=>{
+    console.log('anon sign in')
+  }).catch((err)=> console.log(err))
+}else{
+
+  db.collection('users').doc(auth.currentUser.uid).get().
+then((querySnapshot)=>{
+console.log('getting users last vis');
+
+  lastVisisble=querySnapshot.doc?.data()?.lastVis
+
+
+}).catch(error => 
+  console.error('Error getting last visible', error))
+  
+}
+}
+)
+
+
+
 
 
 const headlinelist = {
@@ -53,7 +80,7 @@ const d = new Date();
 const mins = d.getUTCMinutes();
 const randselector = Math.ceil(mins/10);
 const randchoice = 'random'+randselector;  //this function chooses rand1, rand2 or rand3.. etc based on time
-let lastVisible = {mail:null, guardian:null};
+
 
 async function getFromLaunch(paper){ //get with a limited number of entries
 
@@ -68,6 +95,7 @@ async function getFromLaunch(paper){ //get with a limited number of entries
     console.log(headlinelist[paper], paper);
 
     lastVisible[paper] = querySnapshot.docs[querySnapshot.docs.length-1];
+    storelastvis(lastVisible);
     console.log(" Launch last", lastVisible[paper].data().title);
   
   }).catch(err => console.log('wrong'));
@@ -93,13 +121,24 @@ function getFromAdvanced(paper){ //get with a limited number of entries
           if(querySnapshot.docs.length < 20){gameover();}
 
         if(querySnapshot.docs[querySnapshot.docs.length-1]){
-        lastVisible[paper] = querySnapshot.docs[querySnapshot.docs.length-1];}
+        lastVisible[paper] = querySnapshot.docs[querySnapshot.docs.length-1];
+        storelastvis(lastVisible,paper);}
         else{console.log('SORRY RUN OUT',paper);}
         console.log("last", lastVisible[paper].data().title);
       
       }).catch(err => console.log('wrong'));
     }
       }
+
+function storelastvis(lasty,paper) {
+
+  db.collection('users').doc(auth.currentUser.uid).set({lastVisible:{[paper]}},{merge:true}
+  ).then(()=>console.log('user lastvisisble set to '+lasty))
+  .catch(function(error) {
+    console.error('Error updating lasty', error);
+  })
+  
+}
 
 function gameover(){
 console.log('GAME OVER');

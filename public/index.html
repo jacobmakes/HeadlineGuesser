@@ -39,9 +39,14 @@
           <li><a href="" class="settings"><span class="material-icons">settings</span></a></li>
           <li><a href="" class="profile"><span class="material-icons">emoji_events</span></a></li>
           <li><a href="" class="info"><span class="material-icons">info</span></a></li>
-          <li><a href="" class="info"><span class="material-icons">sd_card</span></a></li>
+          <li><a href="#" class="personlink"><span class="material-icons person">person</span></a></li>
         </ul>
       </nav>
+      <div class="signbox">
+          <h3>Sign up to save your headlines</h3>
+          <a href="signin.html"><button class="signup">Sign Up</button></a>
+          <a href="signin.html"><button class="signin">Sign In</button></a>
+      </div>
     </header>
     <div class="container">
       <div class="game">
@@ -60,17 +65,14 @@
               <rect class='bluebox' x="106" y="301" width="169" height="161" rx="2" fill="#529ADC"/>
               </svg>
               
+              <div class="scorecircle"><div class="streak">0</div></div>
               
           
 
-            <svg class='paper'  viewBox="0 0 590 619" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg class='paper scissors'  viewBox="0 0 590 619" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M105.499 325.299C105.725 327.965 106.673 330.559 108.241 332.801C109.138 334.084 110.222 335.233 111.461 336.214C114.763 338.831 119.035 340.219 123.489 340.119C123.499 340.119 123.512 340.119 123.521 340.117L124.514 340.066C126.946 339.892 129.395 339.242 131.599 338.186C131.608 338.182 131.617 338.177 131.628 338.172C132.392 337.779 132.634 337.643 132.727 337.587C139.625 333.737 144.72 332.192 148.156 331.626C146.627 334.917 143.72 339.591 138.192 345.399C138.114 345.476 137.92 345.682 137.337 346.334C137.331 346.342 137.322 346.349 137.317 346.359C135.708 348.264 134.395 350.54 133.511 352.959L133.179 353.92C133.174 353.931 133.171 353.942 133.169 353.953C131.219 360.122 132.04 366.858 135.312 371.534C135.313 371.536 135.313 371.536 135.313 371.536C136.41 373.103 137.759 374.405 139.324 375.407C142.026 377.132 145.274 377.84 148.472 377.397C151.42 376.991 154.309 375.662 156.821 373.557C158.266 372.346 159.559 370.895 160.654 369.265C162.132 366.91 162.84 365.234 163.231 364.077C165.395 357.777 164.682 350.78 161.324 345.981C160.754 345.166 160.105 344.408 159.396 343.728C159 343.347 158.585 342.992 158.155 342.667L163.179 330.681L200.644 324.077C200.779 324.058 200.915 324.038 201.052 324.02C201.897 323.898 202.774 323.774 203.661 323.427C206.943 322.146 208.846 319.046 209.863 316.673C210.357 315.519 210.681 314.549 210.876 313.621L211.392 311.242C211.476 310.856 211.376 310.458 211.127 310.163C210.878 309.87 210.51 309.724 210.139 309.768L169.349 314.779L175.459 299.651L160.988 299.516L153.025 316.835L141.106 318.296C140.643 316.825 139.963 315.445 139.077 314.181C135.874 309.601 130.134 306.785 124.095 306.829C117.158 306.881 110.822 310.467 107.561 316.187C105.971 318.975 105.24 322.211 105.499 325.299ZM152.643 350.524C153.11 350.864 153.523 351.288 153.87 351.784C155.339 353.882 155.413 356.89 154.995 359.004C154.409 361.952 152.839 364.591 150.688 366.24C148.7 367.765 146.452 368.181 144.677 367.352L144.676 367.352C144.676 367.352 144.673 367.352 144.671 367.351C143.911 366.996 143.263 366.442 142.748 365.709C141.636 364.118 141.154 361.602 141.493 359.142C141.941 355.887 143.639 352.886 146.036 351.113C147.731 349.86 150.477 348.955 152.643 350.524ZM114.744 323.432C114.863 322.329 115.342 321.225 116.125 320.238C117.838 318.079 120.728 316.72 123.856 316.605C126.395 316.511 129.754 317.336 131.569 319.93C131.634 320.023 131.695 320.117 131.755 320.213C132.946 322.119 132.741 324.624 131.235 326.597C129.757 328.537 127.319 329.868 124.545 330.248L124.226 330.288C121.627 330.566 118.097 329.952 115.974 327.392C115.875 327.274 115.783 327.15 115.694 327.025C114.946 325.954 114.608 324.678 114.744 323.432Z" fill="white"/>
               </svg>
               
-              
-              
-
-
             <div class="headline">
 
               <h4 class="headlinetext"> 
@@ -84,52 +86,19 @@
               <button class="btn btn1"><img class="btnimg mailimg" src="/images/letter-m.svg" alt="mail"></button>
               <button class="btn btn2"><img class='btnimg guardimg' src="/images/google.svg" alt="guardian"></button>
            </div>
-          <div class="counter"><span>Streak:</span><span class="streak"></span></div>
-          <div class="kd"><span>Accuracy:</span><span class="acc"></span></div>
+          <div class="kd"><span>Accuracy:</span><div class="acc"></span></div>
+
+          <span class="material-icons flyer plusone">plus_one</span>
+          <span class="material-icons flyer negone">exposure_neg_1</span>
 
       </div>
+      <!-- game -->
 
       </div>
+      <!-- container -->
     <!-- <p id="load">Firebase SDK Loading&hellip;</p> -->
 
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const loadEl = document.querySelector('#load');
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-        // // The Firebase SDK is initialized and available here!
-        //
-        // firebase.auth().onAuthStateChanged(user => { });
-        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
-        // firebase.firestore().doc('/foo/bar').get().then(() => { });
-        // firebase.functions().httpsCallable('yourFunction')().then(() => { });
-        // firebase.messaging().requestPermission().then(() => { });
-        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
-        // firebase.analytics(); // call to activate
-        // firebase.analytics().logEvent('tutorial_completed');
-        // firebase.performance(); // call to activate
-        //
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-
-        try {
-          let app = firebase.app();
-          let features = [
-            'auth', 
-            'database', 
-            'firestore',
-            'functions',
-            'messaging', 
-            'storage', 
-            'analytics', 
-            'remoteConfig',
-            'performance',
-          ].filter(feature => typeof app[feature] === 'function');
-          loadEl.textContent = `Firebase SDK loaded with ${features.join(', ')}`;
-        } catch (e) {
-          console.error(e);
-          loadEl.textContent = 'Error loading the Firebase SDK, check the console.';
-        }
-      });
-    </script>
+   
 
 
 

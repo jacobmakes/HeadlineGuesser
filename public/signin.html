@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sign in</title>
+
+    <!-- update the version number as needed -->
+    <script src="/__/firebase/8.4.1/firebase-app.js"></script>
+    <!-- include only the Firebase features as you need -->
+    <script src="/__/firebase/8.4.1/firebase-auth.js"></script>
+    <!-- 
+      initialize the SDK after all desired features are loaded, set useEmulator to false
+      to avoid connecting the SDK to running emulators.
+    -->
+    <script src="/__/firebase/init.js?useEmulator=true"></script>
+ 
+    <!-- <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    rel="stylesheet"> -->
+
+    <script src="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth__en.js"></script>
+<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.css" />
+
+    <!-- *******************************************************************************************
+       * TODO(DEVELOPER): Paste the initialization snippet from:
+       * Firebase Console > Overview > Add Firebase to your web app.
+       * In addition, include the firebase-auth SDK:
+       * <script src="https://www.gstatic.com/firebasejs/[FIREBASE VERSION USED IN SNIPPET]/firebase-auth.js"></script> *
+       ***************************************************************************************** -->
+       <script defer src="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.js"></script>
+       <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.css" />
+       <script defer type="text/javascript">
+         // FirebaseUI config.
+         var uiConfig = {
+           signInSuccessUrl: '/',
+           signInOptions: [
+             // Leave the lines as is for the providers you want to offer your users.
+             firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+             firebase.auth.EmailAuthProvider.PROVIDER_ID,
+           ],
+           // tosUrl and privacyPolicyUrl accept either url string or a callback
+           // function.
+           // Terms of service url/callback.
+           tosUrl: '<your-tos-url>',
+           // Privacy policy url/callback.
+           privacyPolicyUrl: function() {
+             window.location.assign('<your-privacy-policy-url>');
+           }
+         };
+   
+         // Initialize the FirebaseUI Widget using Firebase.
+         var ui = new firebaseui.auth.AuthUI(firebase.auth());
+         // The start method will wait until the DOM is loaded.
+         ui.start('#firebaseui-auth-container', uiConfig);
+       </script>
+
+</head>
+<body>
+    
+    <!-- The surrounding HTML is left untouched by FirebaseUI.
+         Your app may use that space for branding, controls and other customizations.-->
+         <h1>Welcome to My Awesome App</h1>
+         <div id="firebaseui-auth-container"></div>
+
+</body>
+</html>

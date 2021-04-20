@@ -1,6 +1,7 @@
 const button1 = document.querySelector('.mailimg');
 const button2 = document.querySelector('.guardimg');
 const streakDOM = document.querySelector('.streak');
+const scorecircle = document.querySelector('.scorecircle');
 const accDOM = document.querySelector('.acc');
 const paper1 = 'mail';
 const paper2 = 'guardian';
@@ -68,9 +69,10 @@ if(target == button2){
 
 }
 function correctanswer(paperclicked,otherpaper) {
-if(headlinelist[paperclicked][count[paperclicked]]){
-    db.collection(paperclicked).where('title', "==",headlinelist[paperclicked][count[paperclicked]] )
-    .get().then(querySnapshot => {// console.log('countstuff',headlinelist[paperclicked],count,querySnapshot);
+  //increment paper counts
+if(headlinelist[paperclicked][count[paperclicked]]){ //check non null
+    db.collection(paperclicked).where('title', "==",headlinelist[paperclicked][count[paperclicked]] ) //get article by headline
+    .get().then(querySnapshot => {
         querySnapshot.forEach(doc => {
           doc.ref.set( //TODO Understand .ref
             {correct:{[otherpaper]: firebase.firestore.FieldValue.increment(1),
@@ -78,12 +80,25 @@ if(headlinelist[paperclicked][count[paperclicked]]){
             }},{merge:true}
           )
         })
-      })
+      })     
     }
+//increment user counts;
+  db.collection('users').doc(auth.currentUser.uid).set(
+          {correct:{[paperclicked]: firebase.firestore.FieldValue.increment(1),
+            total:firebase.firestore.FieldValue.increment(1)},
+        },{merge:true}
+        ).then(()=>console.log('user guessed '+paperclicked +'correctly'))
+        .catch(function(error) {
+          console.error('Error writing new message users database', error);
+        })
+
+
+
     attempts++;
     correct++;
     streak++;
     streakDOM.textContent = streak;
+    streakcolour(streak);
         randomserve(paper1,paper2);
         console.log('c',newschoice)
 
@@ -101,10 +116,82 @@ function wronganswer(paperclicked,otherpaper) {
             })
           })
         }
+          //updating individual users scores
+        db.collection('users').doc(auth.currentUser.uid).set(
+          {incorrect:{[paperclicked]: firebase.firestore.FieldValue.increment(1),
+          total:firebase.firestore.FieldValue.increment(1)}},{merge:true}
+        ).then(()=>console.log('user guessed '+paperclicked +'incorrectly'))
+        .catch(function(error) {
+          console.error('Error writing new message users database', error);
+        })
 
     attempts++;
     streak=0;
     streakDOM.textContent = streak;
+    streakcolour(streak);
     randomserve(paper1,paper2);
     console.log('w',newschoice)
+}
+
+
+
+
+//Streak updater
+
+function streakcolour(num){
+  console.log('coloring in', num);
+ if(num<8){scorecircle.style.backgroundColor='var(--blue)'; return}
+ if(num<15){scorecircle.style.backgroundColor='var(--green)'; return;}
+ if(num<100){scorecircle.style.backgroundColor=`hsl(${30-30*((num-15)/85)}, 91%, 60%)`;  return;}
+ if(num>=100){scorecircle.style.backgroundColor='var(--red)';
+ scorecircle.style.borderColor='var(--yellow)'; 
+ streakDOM.style.color='var(--yellow)'; return;}
+
+}
+
+
+//Sign up
+
+const scissors=  document.querySelector('.scissors');
+const person=  document.querySelector('.person');
+const signinbox=  document.querySelector('.signbox');
+const signup=  document.querySelector('.signup');
+const signin=  document.querySelector('.signin');
+let signinboxopen=false;
+
+
+person.addEventListener('click',e =>{
+ if(firebase.auth().currentUser && firebase.auth().currentUser?.providerData.length != 0){    //user logged in go to collection
+
+
+ }else{ //open sign in box
+  openbox();
+ }
+});
+
+scissors.addEventListener('click',e =>{
+  if(firebase.auth().currentUser && firebase.auth().currentUser?.providerData.length != 0){    //user  logged in add to collection
+ 
+ 
+  }else{ //open sign in box
+   openbox();
+  }
+ });
+
+
+function openbox() {
+  if(signinboxopen==false){
+    signinbox.style.transform='scale(1,1)'
+    signinboxopen=true;}
+    else{
+    signinbox.style.transform='scale(0,0)'
+    signinboxopen=false;}
+}
+
+function gotosignin(){
+
+}
+
+function addtoarticles() {
+  
 }
