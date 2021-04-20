@@ -152,7 +152,7 @@ function streakcolour(num){
 
 //Sign up
 
-const scissors=  document.querySelector('.scissors');
+const scissors=  document.querySelector('.scispath');
 const person=  document.querySelector('.person');
 const signinbox=  document.querySelector('.signbox');
 const signup=  document.querySelector('.signup');
@@ -162,7 +162,7 @@ let signinboxopen=false;
 
 person.addEventListener('click',e =>{
  if(firebase.auth().currentUser && firebase.auth().currentUser?.providerData.length != 0){    //user logged in go to collection
-
+  window.location.href = "/articles.html";
 
  }else{ //open sign in box
   openbox();
@@ -171,7 +171,7 @@ person.addEventListener('click',e =>{
 
 scissors.addEventListener('click',e =>{
   if(firebase.auth().currentUser && firebase.auth().currentUser?.providerData.length != 0){    //user  logged in add to collection
- 
+ addtoarticles();
  
   }else{ //open sign in box
    openbox();
@@ -192,6 +192,24 @@ function gotosignin(){
 
 }
 
-function addtoarticles() {
-  
+function addtoarticles() { //adds The article to the users saved articles
+ //get article from current headline
+ db.collection(currentpaper).where('title', "==",headlinetext ) //get article by headline
+ .get().then(querySnapshot => {
+  querySnapshot.forEach(doc => {
+   console.log(doc,doc.data());
+    let id =doc.id;
+    let title =doc.data().title;
+    let url =doc.data().url;
+    let created =doc.data().created;
+    let paper = currentpaper
+    //create article field in users database
+    db.collection('users').doc(auth.currentUser.uid).set(
+      {articles:{[id]:{title:title,url:url,created:created,paper:paper}}},{merge:true}
+  )})//end for each
+     
+ })     .catch(function(error) {
+  console.error('Error writing new message users database', error);
+})
+
 }

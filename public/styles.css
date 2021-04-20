@@ -62,9 +62,13 @@ header:after {
     width: 100%;
     height: calc(var(--borderspace)*2);
 }
+header a{
+    text-decoration: none;
+}
 h1{
     color: white;
     font-family: meriL,  'Times New Roman', Times, serif;
+
 }
 
 /* navbar */
@@ -187,7 +191,7 @@ height: 100%;
     z-index: 1000;
 }
 
-.scissors{
+.scispath{
     cursor: pointer;
 }
 

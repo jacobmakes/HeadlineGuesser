@@ -2,15 +2,17 @@ const db = firebase.firestore();
 const auth = firebase.auth();
 const headline = document.querySelector('.headlinetext');
 const paperpic = document.querySelector('#paper');
-auth.onAuthStateChanged( (user) =>{
-if(user==null){
-auth.signInAnonymously().then(
-  ()=>{
-    console.log('anon sign in')
-  }).catch((err)=> console.log(err))
-}
-}//if
-)
+let currentpaper;
+let headlinetext;
+// auth.onAuthStateChanged( (user) =>{
+// if(user==null){
+// auth.signInAnonymously().then(
+//   ()=>{
+//     console.log('anon sign in')
+//   }).catch((err)=> console.log(err))
+// }
+// }//if
+// )
 
 
 const headlinelist = {
@@ -22,12 +24,13 @@ guardian:[]
 let count = {mail:0,
               guardian:0 }
 
-//TODO: font size adjust to headline length
+//RENDERs headline to paper and resizes it
 function newheadline(paper){
-let headlinetext= headlinelist[paper][count[paper]];
+headlinetext= headlinelist[paper][count[paper]];
 let papertop = paperpic.getBoundingClientRect().top;  //only used in calc of bluetop
 let paperbottom = paperpic.getBoundingClientRect().bottom; //only used in calc of bluetop
 let bluetop= papertop+(paperbottom-papertop)*(301/619);
+currentpaper=paper;
 
 let fontS = 50;
 
@@ -49,13 +52,7 @@ while(hlbottom>bluetop && fontS >12){
  //console.log('smaller',fontS)
 }
 headline.style.opacity = '1';
-
-
-
-
   count[paper]++;
-
-
 }
 
 
@@ -91,7 +88,7 @@ const bigrandom= Math.floor(Math.random() * 2147483646/4) + 1;
 function getFromAdvanced(paper){ //get with a limited number of entries
       if(lastVisible[paper]==null){getFromLaunch();}else{
         console.log('starting at '+lastVisible[paper].data().title);
-      db.collection(paper).orderBy(`random.${randchoice}`).startAt(lastVisible[paper]).limit(20).get()
+      db.collection(paper).orderBy(`random.${randchoice}`).startAfter(lastVisible[paper]).limit(20).get()
         .then(function(querySnapshot) {
           querySnapshot.forEach(function(doc) {
             // doc.data() is never undefined for query doc snapshots

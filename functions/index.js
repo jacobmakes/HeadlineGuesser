@@ -28,13 +28,15 @@ exports.paperscraper = functions.https.onRequest((request, response) => {
   return newStr;}
 
   function strReplaceM(str){ //get dailymail from title
-    var newStr = str.replace(/https:\/\/www.dailymail.co.uk\//g, "");
-return newStr;}
+    var newStr2 = str.replace(/https:\/\/www.dailymail.co.uk\//g, "");
+return newStr2;}
 
 function strReplaceMT(str){ //REMOVE columist name from title
-  var newStr = str.replace(/^([A-Z]|\s){1,30}:/g, "");
-  var newStr = str.replace(/([A-Z]|\s){6,20}\.?$/g, ""); //ALL CAPS FROM END
-return newStr;}
+  var newStr3 = str.replace(/^([A-Z]|\s){1,30}:/g, "");
+return newStr3;}
+function strReplaceME(str){ //REMOVE columist name from title
+  var newStr4 = str.replace(/([A-Z]|\s){6,20}\.?$/g, ""); //ALL CAPS FROM END
+return newStr4;}
 
 
   //GET FROM GUARDIAN
@@ -53,7 +55,7 @@ return newStr;}
     return data;
 
 }
-for(pagenum=1; pagenum <2; pagenum++){
+for(pagenum=1; pagenum <10; pagenum++){
 getguard(pagenum).
     then(datagot)
     .catch(err => console.log(err));}
@@ -78,7 +80,7 @@ results.forEach( (result) =>{
     random4:rand4,         
     random5:rand5,
     random5:rand6,
-}, title: result.webTitle
+}, title: result.webTitle, url: result.webUrl, created: Date.parse(result.webPublicationDate)
 
 };
 
@@ -130,11 +132,9 @@ results.forEach( (result) =>{
     random5:rand5,
     random5:rand6,
 }};
-  result.title = strReplaceMT(result.title);
+  result.title = strReplaceME(strReplaceMT(result.title));
 
-
- 
-   admin.firestore().collection("mail").doc(strReplace(strReplaceM(result.id))).set(result)
+   admin.firestore().collection("mail").doc(strReplace(strReplaceM(result.link))).set(result)
    .catch(function(error) {
      console.error('Error writing new message to database', error);
    })
@@ -146,11 +146,6 @@ function failed(err) {
     console.log(err)
     
 };
-
-
-
-
-
 
   functions.logger.info("Hello loggers!", {structuredData: true});
 });
