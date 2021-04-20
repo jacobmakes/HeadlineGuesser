@@ -1,5 +1,5 @@
 const list = document.querySelector('.articlelist');
-let parseddata;
+
 
 generatearticles();
 
@@ -16,25 +16,18 @@ function articles(user){ //get with a limited number of entries
           let title = article[1]['title'];
           let created = article[1]['created'];
           let url = article[1]['url'];
-          parseddata=[...{title, created,url}];
+
+          let li = document.createElement("LI");                 // Create a <li> node
+          let a = document.createElement("a");
+          a.href = url;
+          let div = document.createElement("div"); 
+          let h4 = document.createElement("h4"); 
+          textnode = document.createTextNode(title); 
+          list.appendChild(li); li.appendChild(a); a.appendChild(div); div.appendChild(h4); h4.appendChild(textnode);
 
 
     });
-  }).then(outputdata(parseddata))
-  .catch(err => console.log('unable to fetch articles', err));
-  }
 
-  function outputdata(artlist){
-    artlist.sort((a, b) => parseFloat(b.created) - parseFloat(a.created));
-    artlist.forEach(article =>{
-
-    let li = document.createElement("LI");                 // Create a <li> node
-    let a = document.createElement("a");
-    a.href = url;
-    let div = document.createElement("div"); 
-    let h4 = document.createElement("h4"); 
-    textnode = document.createTextNode(title); 
-    list.appendChild(li); li.appendChild(a); a.appendChild(div); div.appendChild(h4); h4.appendChild(textnode);
-      }  )
-
+  
+  }).catch(err => console.log('unable to fetch articles', err));
   }
