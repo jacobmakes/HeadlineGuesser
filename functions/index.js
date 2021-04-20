@@ -95,7 +95,7 @@ results.forEach( (result) =>{
 
 async function getfeed(){
 
-  var rss = await Feed.load('https://www.dailymail.co.uk/home/index.rss');
+  var rss = await Feed.load('https://www.dailymail.co.uk/articles.rss');
   let temp = JSON.stringify(rss, null, 3)
   output = JSON.parse(temp);
   return output.items;

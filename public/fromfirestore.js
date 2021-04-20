@@ -66,8 +66,9 @@ const randchoice = 'random'+randselector;  //this function chooses rand1, rand2 
 let lastVisible = {mail:null, guardian:null};
 
 async function getFromLaunch(paper){ //get with a limited number of entries
-
- await db.collection(paper).orderBy(`random.${randchoice}`).limit(20).get()
+const bigrandom= Math.floor(Math.random() * 2147483646/4) + 1;
+ await db.collection(paper).where(`random.${randchoice}`, ">=",bigrandom)
+ .orderBy(`random.${randchoice}`).limit(20).get()
     .then(function(querySnapshot) {
       querySnapshot.forEach(function(doc) {
         // doc.data() is never undefined for query doc snapshots
@@ -103,8 +104,11 @@ function getFromAdvanced(paper){ //get with a limited number of entries
           if(querySnapshot.docs.length < 20){gameover();}
 
         if(querySnapshot.docs[querySnapshot.docs.length-1]){
-        lastVisible[paper] = querySnapshot.docs[querySnapshot.docs.length-1];}
+        lastVisible[paper] = querySnapshot.docs[querySnapshot.docs.length-1];
+        let lv=JSON.stringify(lastVisible);
+        localStorage.setItem('lv',lv);}
         else{console.log('SORRY RUN OUT',paper);}
+        localStorage.setItem(lastVisible);
         console.log("last", lastVisible[paper].data().title);
       
       }).catch(err => console.log('wrong'));
