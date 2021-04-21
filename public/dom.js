@@ -16,8 +16,8 @@ streakDOM.textContent = streak;
 
  function LAUNCH(){
      Promise.all([
-    getFromLaunch('guardian'),
-    getFromLaunch('mail')]).then(() =>{
+    getFromLaunch('mail'),
+    getFromLaunch('guardian')]).then(() =>{
 
     randomserve(paper1,paper2);
     console.log('launched');
@@ -93,7 +93,7 @@ if(headlinelist[paperclicked][count[paperclicked]]){ //check non null
         })
 
 
-
+        createflyer(1);
     attempts++;
     correct++;
     streak++;
@@ -125,6 +125,7 @@ function wronganswer(paperclicked,otherpaper) {
           console.error('Error writing new message users database', error);
         })
 
+        createflyer(0);
     attempts++;
     streak=0;
     streakDOM.textContent = streak;
@@ -132,7 +133,24 @@ function wronganswer(paperclicked,otherpaper) {
     randomserve(paper1,paper2);
     console.log('w',newschoice)
 }
+const game = document.querySelector('.game');
 
+//floating scores.
+function createflyer(winlose){
+  let flyer;
+  let icon;
+  if(winlose){flyer='plusone'; icon ='plus_one';}
+  else{flyer='negone'; icon = 'exposure_neg_1'}
+  let span = document.createElement("span");
+  span.setAttribute("class", 'material-icons flyer '+flyer);
+  textnode = document.createTextNode(icon); 
+  span.appendChild(textnode);
+  game.appendChild(span);
+
+
+  setTimeout(()=>{    span.style.transform='translateY(-30vh)';  span.style.opacity='0';  }, 20)
+  setTimeout(()=>{  span.remove()}, 6000)
+}
 
 
 
@@ -191,24 +209,45 @@ function openbox() {
 function gotosignin(){
 
 }
+const artsaved=  document.querySelector('.added');
 
 function addtoarticles() { //adds The article to the users saved articles
  //get article from current headline
  db.collection(currentpaper).where('title', "==",headlinetext ) //get article by headline
  .get().then(querySnapshot => {
   querySnapshot.forEach(doc => {
-   console.log(doc,doc.data());
-    let id =doc.id;
-    let title =doc.data().title;
+
+    doc.ref.set( //adds saved to document database
+      {saved: firebase.firestore.FieldValue.increment(1)},{merge:true})
+
+        let title =doc.data().title;
     let url =doc.data().url;
     let created =doc.data().created;
     let paper = currentpaper
-    //create article field in users database
-    db.collection('users').doc(auth.currentUser.uid).set(
-      {articles:{[id]:{title:title,url:url,created:created,paper:paper}}},{merge:true}
-  )})//end for each
+
+
+
+    //add article to users database
+db.collection('users').doc(auth.currentUser.uid).collection('articles').doc(doc.id).set(
+{title:title,url:url,created:created,paper:paper,
+  timestamp: firebase.firestore.FieldValue.serverTimestamp()
+},{merge:true}
+
+ )
+
+
+})//end for each
+
      
- })     .catch(function(error) {
+ }).then( ()=>{//produce article saved message
+ artsaved.style.display='grid',
+ artsaved.style.opacity='1';
+ setTimeout(()=>{  artsaved.style.opacity='0'}, 2000)
+ setTimeout(()=>{  artsaved.style.display='none'}, 3000)
+ console.log('article added')
+ }
+
+ ).catch(function(error) {
   console.error('Error writing new message users database', error);
 })
 
