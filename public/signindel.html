@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Sign in</title>
+    <title>Sign in to delete</title>
 
     <!-- update the version number as needed -->
     <script src="/__/firebase/8.4.1/firebase-app.js"></script>
@@ -33,7 +33,7 @@
        <script defer type="text/javascript">
          // FirebaseUI config.
          var uiConfig = {
-           signInSuccessUrl: '/',
+           signInSuccessUrl: '/articles.html',
            signInOptions: [
              // Leave the lines as is for the providers you want to offer your users.
              firebase.auth.GoogleAuthProvider.PROVIDER_ID,
@@ -54,7 +54,7 @@
          // The start method will wait until the DOM is loaded.
          ui.start('#firebaseui-auth-container', uiConfig);
        </script>
-
+  <style> .delsign {text-align: center;} </style>
 </head>
 <body>
     
@@ -62,7 +62,7 @@
          Your app may use that space for branding, controls and other customizations.
         TODO: Add header
         -->
-
+          <p class="delsign">Please sign in again to reauthenticate</p>
          <div id="firebaseui-auth-container"></div>
 
 </body>

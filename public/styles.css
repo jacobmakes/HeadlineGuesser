@@ -31,6 +31,10 @@
     margin: 0;
     padding: 0;
 }
+button{
+    outline:none;
+}
+
 body{
     position: fixed;
     width: 100%;
@@ -68,6 +72,9 @@ header a{
 h1{
     color: white;
     font-family: meriL,  'Times New Roman', Times, serif;
+    white-space: nowrap;
+    overflow: hidden;
+    font-size: 4vh;
 
 }
 
@@ -84,17 +91,18 @@ nav{
 
 nav ul{
     display: flex;
-    justify-content: space-between;
-    margin-right: 3%;
+    justify-content: flex-end;
+    margin-right: 1%;
     flex-basis: 200px;
     list-style-type: none;
 }
 nav ul li{
-    margin-right: 2%;
+    margin-right: 7%;
 
 }
 nav ul span{
     color: white;
+    font-size: 4vh;
 
 }
 
@@ -251,11 +259,11 @@ height: 100%;
     z-index: 1100;
     display: flex;
     justify-content: center;
+    outline: none;
 }
 
 .btnimg{
-    width: 7em;
-    height: 7em;
+    height: 13vh;
     cursor: pointer;
 
     z-index: 1100;
@@ -272,6 +280,10 @@ height: 100%;
     border-radius: 1em;
     background: none;
     border: none;
+    outline: none;
+}
+.btn:focus{
+    border:none;
 }
 
 

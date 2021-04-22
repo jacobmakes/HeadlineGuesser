@@ -1,12 +1,43 @@
 .game{
-    padding-left: 1rem;
     overflow: scroll;
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
+    display: flex;
+    flex-direction: column;
 }
 .game::-webkit-scrollbar {
     display: none;
   }
+
+.top{
+    display: flex;
+    align-items: center;
+}
+.acccircle{
+    width: 3rem;
+    height: 3rem;
+    margin: 0.2rem 2%;
+    background-color: var(--blue);
+    z-index: 900;
+    border-radius: 50%;
+    border-width: 2px;
+    border-color: var(--lightgrey);
+    border-style: dotted;
+    display: grid;
+    place-content: center;
+    
+
+}
+.acccircle div{
+    font-size: 1.5em;
+    font-family: Impact,  'Arial Narrow Bold', sans-serif;
+    color: var(--lightgrey)
+}
+
+.accuracy{
+    font-family: meri, 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    margin: 0.2rem 1%;
+}
 
 .articlelist{
     list-style-type: none;
@@ -30,4 +61,25 @@ color: black;
 text-align: left;
 text-decoration: none;
 font-family: meriL, ams, Cambria, Cochin, Georgia, Times, 'Times New Roman', serif
+}
+
+
+
+.del{
+    background-color: red;
+    color: var(--white);
+}
+.logout{
+    background-color: var(--darkgrey);
+    color: black;
+}
+
+.artheader{
+    font-family: ams, Georgia, 'Times New Roman', Times, serif;
+    font-variation-settings: 'wght' 625, 'wdth' 100;
+    line-height: 1.4em;
+    font-size: 2em;
+    letter-spacing: 1px;
+    color: #111;
+    text-align: center;
 }

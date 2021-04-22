@@ -2,12 +2,12 @@ const button1 = document.querySelector('.mailimg');
 const button2 = document.querySelector('.guardimg');
 const streakDOM = document.querySelector('.streak');
 const scorecircle = document.querySelector('.scorecircle');
-const accDOM = document.querySelector('.acc');
+// const accDOM = document.querySelector('.acc');
 const paper1 = 'mail';
 const paper2 = 'guardian';
 
 
-let acc; //accuracy
+// let acc; //accuracy
 let correct = 0; 
 let attempts =0;
 let streak = 0;
@@ -32,7 +32,7 @@ LAUNCH();
      if(newschoice === '2') {newheadline(paperB);}
 
 
-   accDOM.textContent = (correct/attempts)*100;
+  //  accDOM.textContent = (correct/attempts)*100;
 
 
 }
@@ -83,6 +83,7 @@ if(headlinelist[paperclicked][count[paperclicked]]){ //check non null
       })     
     }
 //increment user counts;
+if(auth.currentUser){
   db.collection('users').doc(auth.currentUser.uid).set(
           {correct:{[paperclicked]: firebase.firestore.FieldValue.increment(1),
             total:firebase.firestore.FieldValue.increment(1)},
@@ -91,7 +92,7 @@ if(headlinelist[paperclicked][count[paperclicked]]){ //check non null
         .catch(function(error) {
           console.error('Error writing new message users database', error);
         })
-
+      }
 
         createflyer(1);
     attempts++;
@@ -117,6 +118,7 @@ function wronganswer(paperclicked,otherpaper) {
           })
         }
           //updating individual users scores
+          if(auth.currentUser){
         db.collection('users').doc(auth.currentUser.uid).set(
           {incorrect:{[paperclicked]: firebase.firestore.FieldValue.increment(1),
           total:firebase.firestore.FieldValue.increment(1)}},{merge:true}
@@ -124,7 +126,7 @@ function wronganswer(paperclicked,otherpaper) {
         .catch(function(error) {
           console.error('Error writing new message users database', error);
         })
-
+      }
         createflyer(0);
     attempts++;
     streak=0;
@@ -158,7 +160,7 @@ function createflyer(winlose){
 
 function streakcolour(num){
   console.log('coloring in', num);
- if(num<8){scorecircle.style.backgroundColor='var(--blue)'; return}
+ if(num<7){scorecircle.style.backgroundColor='var(--blue)'; return}
  if(num<15){scorecircle.style.backgroundColor='var(--green)'; return;}
  if(num<100){scorecircle.style.backgroundColor=`hsl(${30-30*((num-15)/85)}, 91%, 60%)`;  return;}
  if(num>=100){scorecircle.style.backgroundColor='var(--red)';
@@ -173,8 +175,8 @@ function streakcolour(num){
 const scissors=  document.querySelector('.scispath');
 const person=  document.querySelector('.person');
 const signinbox=  document.querySelector('.signbox');
-const signup=  document.querySelector('.signup');
-const signin=  document.querySelector('.signin');
+const signup=  document.querySelector('.signup'); //not used
+const signin=  document.querySelector('.signin'); //notused
 let signinboxopen=false;
 
 

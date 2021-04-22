@@ -15,10 +15,6 @@ admin.initializeApp();
 
 
 
-exports.hollaback = functions.https.onCall((data, context) => {
-return 'hello darkness' +data;
-
-});
 
 exports.paperscraper = functions.https.onRequest((request, response) => {
 
@@ -55,7 +51,7 @@ return newStr4;}
     return data;
 
 }
-for(pagenum=1; pagenum <10; pagenum++){
+for(pagenum=1; pagenum <15; pagenum++){
 getguard(pagenum).
     then(datagot)
     .catch(err => console.log(err));}
@@ -151,7 +147,7 @@ function failed(err) {
 });
 
 
-exports.randomupdate = functions.https.onRequest((request, response) => {
+exports.randomupdate = functions.pubsub.schedule('2 * * * *').onRun((context) => {
 
 randomize('mail');
 randomize('guardian')
@@ -188,14 +184,14 @@ randomize('guardian')
   });
   });
  }
-  response.send('completed');
 
 });
 
+exports.ranklist = functions.pubsub.schedule('* * * * *').onRun((context) => {
 
-exports.ranklist = functions.https.onRequest((request, response) => {
 
 rankpapers('guardian');
+rankpapers('mail');
 
   function rankpapers(paper){ admin.firestore().collection(paper).get()
     .then(function(querySnapshot) {
@@ -221,7 +217,7 @@ rankpapers('guardian');
 
     })//end for each
   
-
+    functions.logger.info(`${paper} ranked`,{structuredData:true});
 
 })//end quey snapshot
 
@@ -231,5 +227,5 @@ rankpapers('guardian');
 });
 
 }
-response.send('list ranked'); 
+
 })//end cloud function
