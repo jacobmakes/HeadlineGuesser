@@ -74,7 +74,7 @@ if(headlinelist[paperclicked][count[paperclicked]]){ //check non null
     db.collection(paperclicked).where('title', "==",headlinelist[paperclicked][count[paperclicked]] ) //get article by headline
     .get().then(querySnapshot => {
         querySnapshot.forEach(doc => {
-          doc.ref.set( //TODO Understand .ref
+          doc.ref.set( 
             {correct:{[otherpaper]: firebase.firestore.FieldValue.increment(1),
             total: firebase.firestore.FieldValue.increment(1)
             }},{merge:true}
@@ -170,47 +170,7 @@ function streakcolour(num){
 }
 
 
-//Sign up
 
-const scissors=  document.querySelector('.scispath');
-const person=  document.querySelector('.person');
-const signinbox=  document.querySelector('.signbox');
-const signup=  document.querySelector('.signup'); //not used
-const signin=  document.querySelector('.signin'); //notused
-let signinboxopen=false;
-
-
-person.addEventListener('click',e =>{
- if(firebase.auth().currentUser && firebase.auth().currentUser?.providerData.length != 0){    //user logged in go to collection
-  window.location.href = "/articles.html";
-
- }else{ //open sign in box
-  openbox();
- }
-});
-
-scissors.addEventListener('click',e =>{
-  if(firebase.auth().currentUser && firebase.auth().currentUser?.providerData.length != 0){    //user  logged in add to collection
- addtoarticles();
- 
-  }else{ //open sign in box
-   openbox();
-  }
- });
-
-
-function openbox() {
-  if(signinboxopen==false){
-    signinbox.style.transform='scale(1,1)'
-    signinboxopen=true;}
-    else{
-    signinbox.style.transform='scale(0,0)'
-    signinboxopen=false;}
-}
-
-function gotosignin(){
-
-}
 const artsaved=  document.querySelector('.added');
 
 function addtoarticles() { //adds The article to the users saved articles

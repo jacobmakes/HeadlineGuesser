@@ -1,9 +1,23 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} {
+  
+    match /users/{userddd}/{document=**} {
       allow read, write: if
-          request.time < timestamp.date(2021, 5, 13);
+          request.auth.uid == userddd;
+    }
+    
+    match /mail/{document=**} {
+    
+    allow read;
+          allow update: if (request.resource.data.diff(resource.data).affectedKeys()
+        .hasOnly(['correct', 'incorrect', 'saved',]));
+    }
+        match /guardian/{document=**} {
+    
+    allow read;
+          allow update: if (request.resource.data.diff(resource.data).affectedKeys()
+        .hasOnly(['correct', 'incorrect', 'saved',]));
     }
   }
 }

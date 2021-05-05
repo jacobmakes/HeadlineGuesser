@@ -91,7 +91,7 @@ del.onclick= ()=>{
 if(delclicks==1){
   firebase.auth().currentUser.delete().then(function() {
     console.log('user deleted');
-    location.replace("/");    
+    location.replace("/accountdeleted.html");    
   }).catch(function(error) { //if user not authenitcated recently enough
     firebase.auth().signOut().then(()=>{
       console.log('user signed out');

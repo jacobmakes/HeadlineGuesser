@@ -1,0 +1,21 @@
+.info{
+    padding-top: 2rem;
+    font-family: ams, Georgia, 'Times New Roman', Times, serif;
+}
+
+h2{
+    text-align: center;
+    padding-bottom: 1rem;
+}
+
+blockquote{
+    padding-left: 2rem;
+    font-style: italic;
+}
+.atr{
+    font-weight: 550;
+}
+
+p{
+    padding: 0.2rem 0.3rem 1rem 0.6rem;
+}

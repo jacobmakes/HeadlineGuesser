@@ -37,8 +37,7 @@ return newStr4;}
 
   //GET FROM GUARDIAN
 
-  let key = 'b7394067-8c77-4660-81f8-3272c44a957c';
-  key = 'test'
+  let key = 'test';
 
   const getguard = async (pagenum) => {
 
@@ -51,7 +50,7 @@ return newStr4;}
     return data;
 
 }
-for(pagenum=1; pagenum <15; pagenum++){
+for(pagenum=1; pagenum <10; pagenum++){
 getguard(pagenum).
     then(datagot)
     .catch(err => console.log(err));}
@@ -150,7 +149,7 @@ function failed(err) {
 exports.randomupdate = functions.pubsub.schedule('2 * * * *').onRun((context) => {
 
 randomize('mail');
-randomize('guardian')
+randomize('guardian');
 
  function randomize(paper){ admin.firestore().collection(paper).get()
   .then(function(querySnapshot) {
@@ -162,7 +161,7 @@ randomize('guardian')
       let rand5 = Math.floor(Math.random() * 2147483646) + 1;
       let rand6 = Math.floor(Math.random() * 2147483646) + 1;
 //update each document
-      doc.ref.update({
+      doc.ref.set({
         random: {random1: rand1,
                   random2:rand2,
                   random3:rand3,
@@ -170,25 +169,26 @@ randomize('guardian')
                   random5:rand5,
                   random6:rand6,
         },
-    })
-    .then(() => {
-        console.log("Documents successfully updated with random!");
-    })
-    .catch((error) => {
-        // The document probably doesn't exist.
-        console.error("Error updating document: random", error);
-    });
+    },{merge:true})
+
 
 
       
   });
-  });
+  })    .then(() => {
+    console.log("Documents successfully updated with random!");
+    functions.logger.info(`${paper} updated`, {structuredData: true});
+    return null; // move to inside then?
+})
+.catch((error) => {
+    // The document probably doesn't exist.
+    console.error("Error updating document: random", error);
+});
  }
-
+ 
 });
 
-exports.ranklist = functions.pubsub.schedule('* * * * *').onRun((context) => {
-
+exports.ranklist = functions.https.onRequest((request, response) => {
 
 rankpapers('guardian');
 rankpapers('mail');
@@ -217,7 +217,7 @@ rankpapers('mail');
 
     })//end for each
   
-    functions.logger.info(`${paper} ranked`,{structuredData:true});
+
 
 })//end quey snapshot
 
@@ -227,5 +227,5 @@ rankpapers('mail');
 });
 
 }
-
+response.send('done');
 })//end cloud function
