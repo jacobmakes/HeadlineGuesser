@@ -37,7 +37,7 @@ return newStr4;}
 
   //GET FROM GUARDIAN
 
-  let key = 'test';
+  let key;
 
   const getguard = async (pagenum) => {
 
